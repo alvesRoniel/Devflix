@@ -1,57 +1,69 @@
 import React, { useState } from 'react';
 import PageDefault from '../../../components/PageDefault';
 import { Link } from 'react-router-dom';
+import FormField from '../../../components/formField';
 
 function CadastrarCategoria() {
+    const valoresIniciais = {
+        nome: '',
+        descricao: '',
+        cor: ''
+    }
 
-    const [categorias, setCategorias] = useState(['Teste']);
-    const [nomeDaCategoria, setNomeDaCategoria] = useState();
+    const [categorias, setCategorias] = useState([]);
+    const [formValues, setValues] = useState(valoresIniciais);
 
-    function AlterarValorDoInput(infosDoEvento) {
-        setNomeDaCategoria(infosDoEvento.target.value);
+    function setValue(chave, valor) {
+         // chave: nome, descricao
+        setValues({
+            ...formValues,
+            [chave]: valor, // nome: 'valor'
+        })
+    }
+
+    function handleChange(infosDoEvento) {
+        setValue(
+            infosDoEvento.target.getAttribute('name'),
+            infosDoEvento.target.value
+        );
     }
 
     return (
         <PageDefault>
-            <h1>Cadastro de Categoria: {nomeDaCategoria}</h1>
+            <h1>Cadastro de Categoria: {formValues.nome}</h1>
 
             <form onSubmit={function handleSubmint(infosDoEvento) {
                 infosDoEvento.preventDefault();
-
                 setCategorias([
                     ...categorias,
-                    nomeDaCategoria
+                    formValues
                 ]);
+
+                setValues(valoresIniciais);
             }}>
-                <div>
-                    <label>
-                        Nome da Categoria:
-                    <input type="text"
-                            value={nomeDaCategoria}
-                            onChange={AlterarValorDoInput}
-                        />
-                    </label>
-                </div>
+                <FormField
+                    label="Nome da categoria"
+                    type="text"
+                    name="nome"
+                    value={formValues.nome}
+                    onChange={handleChange}
+                />
 
-                <div>
-                    <label>
-                        Descrição:
-                    <input type="text"
-                            value={nomeDaCategoria}
-                            onChange={AlterarValorDoInput}
-                        />
-                    </label>
-                </div>
+                <FormField
+                    label="Descrição"
+                    type="textarea"
+                    name="nome"
+                    value={formValues.descricao}
+                    onChange={handleChange}
+                />
 
-                <div>
-                    <label>
-                        Cor:
-                    <input type="color"
-                            value={nomeDaCategoria}
-                            onChange={AlterarValorDoInput}
-                        />
-                    </label>
-                </div>
+                <FormField
+                    label="Cor"
+                    type="color"
+                    name="cor"
+                    value={formValues.cor}
+                    onChange={handleChange}
+                />
 
                 <button>
                     Cadastar
@@ -63,16 +75,24 @@ function CadastrarCategoria() {
                 {categorias.map((categoria, indice) => {
                     return (
                         <li key={`${categoria}${indice}`}>
-                            {categoria}
+                            {categoria.nome}
                         </li>
                     )
                 })}
             </ul>
 
-
-            <Link to="/">
-                Ir para a home
+            <div>
+                <Link to="/">
+                    Ir para a home
             </Link>
+            </div>
+
+
+            <div>
+                <Link to="/cadastro/video">
+                    Cadastrar Video
+            </Link>
+            </div>
         </PageDefault>
     );
 }
