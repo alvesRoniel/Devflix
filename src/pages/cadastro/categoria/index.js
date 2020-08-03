@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PageDefault from '../../../components/PageDefault';
 import { Link } from 'react-router-dom';
-import FormField from '../../../components/formField';
+import FormField from '../../../components/FormField';
 
 function CadastrarCategoria() {
     const valoresIniciais = {
